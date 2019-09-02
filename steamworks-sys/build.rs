@@ -54,7 +54,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     use std::borrow::Cow;
 
     let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
-    let sdk_loc = env::var("\sdk\redistributable_bin\steam_api.dll")
+    let sdk_loc = env::var("\steamworks_sdk\redistributable_bin\steam_api.dll")
         .expect("STEAM_SDK_LOCATION must be set");
     let sdk_loc = Path::new(&sdk_loc);
 
