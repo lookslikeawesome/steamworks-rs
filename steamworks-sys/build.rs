@@ -52,10 +52,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     use std::fmt::Write as _;
     use std::fs::{self, File};
     use std::borrow::Cow;
+    
+    let steam_api_json_loc = sdk_loc.join("public/steam/steam_api.json");
+    let file = File::open(&steam_api_json_loc).expect(&format!("open {:?}", steam_api_json_loc));
 
     let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
-    let sdk_loc = env::var("STEAM_SDK_LOCATION")
-        .expect("STEAM_SDK_LOCATION must be set");
+    let sdk_loc = File::open(&steam_api_json_loc).expect(&format!("open {:?}", steam_api_json_loc));
     let sdk_loc = Path::new(&sdk_loc);
 
     let triple = env::var("TARGET").unwrap();
@@ -85,8 +87,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Steamworks uses packed structs making them hard to work
     // with normally
-    let steam_api_json_loc = sdk_loc.join("public/steam/steam_api.json");
-    let file = File::open(&steam_api_json_loc).expect(&format!("open {:?}", steam_api_json_loc));
     let steam_api: SteamApi = serde_json::from_reader(file)?;
 
     let mut bindings = r##"
